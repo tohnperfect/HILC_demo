@@ -10,11 +10,11 @@ A visual-based interactive GUI Programming by Demonstration system.
 3. The system generate runable script which can automatically perform the demonstrated task.
 
 ##Dependencies
--`Python2.7`
+  * `Python2.7`
 
--`pyHook-1.5.1-cp27-none-win_amd64`
+  * `pyHook-1.5.1-cp27-none-win_amd64`
 
--python packages (normally come with [Python Anaconda](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
+  * python packages (normally come with [Python Anaconda](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
 
 
 ##Basic Usage
@@ -23,11 +23,11 @@ A visual-based interactive GUI Programming by Demonstration system.
 
 2. demonstrate a task.
    
-   -Linear Task
+  * Linear Task
 
-   -Looping Task
+  * Looping Task
 
-   -Standby Task
+  * Standby Task
 
 3. when done, press `Shift + Esc` to end the script.
 

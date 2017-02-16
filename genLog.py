@@ -3,6 +3,7 @@ from pyHook import HookConstants
 import win32con,win32api,win32ui,win32gui
 import logging
 import os 
+import ctypes
 
 import matplotlib.pyplot as plt
 
@@ -13,6 +14,10 @@ parser.add_argument('--i', type=bool, help='whether to save screenshot or not?',
 args = parser.parse_args()
 save_path = args.p
 saveSS = args.i
+
+##solve HiDPI display. This 2 lines are needed if you run the script on High DPI screen, without them screen resolution and cursor coordinate will be incorrect.
+user32 = ctypes.windll.user32
+user32.SetProcessDPIAware()
 
 Minimize = win32gui.GetForegroundWindow()
 win32gui.ShowWindow(Minimize,win32con.SW_MINIMIZE)

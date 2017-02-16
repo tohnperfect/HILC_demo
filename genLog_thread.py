@@ -1,6 +1,7 @@
 import pythoncom, pyHook
 from pyHook import HookConstants
 import win32con,win32api,win32ui,win32gui
+import ctypes
 import logging
 import os 
 
@@ -16,6 +17,10 @@ parser.add_argument('--i', type=bool, help='whether to save screenshot or not?',
 args = parser.parse_args()
 save_path = args.p
 saveSS = args.i
+
+##solve HiDPI display
+user32 = ctypes.windll.user32
+user32.SetProcessDPIAware()
 
 Minimize = win32gui.GetForegroundWindow()
 win32gui.ShowWindow(Minimize,win32con.SW_MINIMIZE)
@@ -39,7 +44,7 @@ pressR = False
 
 WIDTH = win32api.GetSystemMetrics(0)
 HEIGHT = win32api.GetSystemMetrics(1)
-#print('Width = {} Height= {}'.format(WIDTH,HEIGHT))
+print('Width = {} Height= {}'.format(WIDTH,HEIGHT))
 hwin = win32gui.GetDesktopWindow()
 hwindc = win32gui.GetWindowDC(hwin)
 srcdc = win32ui.CreateDCFromHandle(hwindc)

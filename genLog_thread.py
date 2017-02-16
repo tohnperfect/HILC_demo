@@ -39,7 +39,7 @@ pressR = False
 
 WIDTH = win32api.GetSystemMetrics(0)
 HEIGHT = win32api.GetSystemMetrics(1)
-
+#print('Width = {} Height= {}'.format(WIDTH,HEIGHT))
 hwin = win32gui.GetDesktopWindow()
 hwindc = win32gui.GetWindowDC(hwin)
 srcdc = win32ui.CreateDCFromHandle(hwindc)
@@ -70,13 +70,13 @@ def OnMouseEventLD(event): #when the left button of the mouse is pressed.
 		counter -= 1
 		imgname = '%.6d.bmp'%(counter) #the log for this image was logged while mouse was moving.
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image before the mouse button is pressed.
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		counter += 1
 
 		memdc.BitBlt((0, 0), (WIDTH , HEIGHT), srcdc, (0, 0), win32con.SRCCOPY)
 		imgname = '%.6d.bmp'%(counter)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image when the mouse button is being pressed.
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		counter += 1
 	else:
 		imgname = ''
@@ -100,12 +100,12 @@ def OnMouseEventLU(event): #when the left button of the mouse is released.
 		global counter
 		counter -= 1
 		imgname = '%.6d.bmp'%(counter) #the log for this image was logged while mouse was moving.
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image before the mouse button is released.
 		counter += 1
 		memdc.BitBlt((0, 0), (WIDTH , HEIGHT), srcdc, (0, 0), win32con.SRCCOPY)
 		imgname = '%.6d.bmp'%(counter)
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image when the mouse button is being released.
 		counter += 1
 	else:
@@ -130,12 +130,12 @@ def OnMouseEventRD(event): #when the right button of the mouse is pressed.
 		global counter
 		counter -= 1
 		imgname = '%.6d.bmp'%(counter) #the log for this image was logged while mouse was moving.
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image before the mouse button is pressed.
 		counter += 1
 		memdc.BitBlt((0, 0), (WIDTH , HEIGHT), srcdc, (0, 0), win32con.SRCCOPY)
 		imgname = '%.6d.bmp'%(counter)
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image when the mouse button is being pressed.
 		counter += 1
 	else:
@@ -160,11 +160,11 @@ def OnMouseEventRU(event): #when the right button of the mouse is released.
 		global counter
 		counter -= 1
 		imgname = '%.6d.bmp'%(counter) #the log for this image was logged while mouse was moving.
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		counter += 1
 		memdc.BitBlt((0, 0), (WIDTH , HEIGHT), srcdc, (0, 0), win32con.SRCCOPY)
 		imgname = '%.6d.bmp'%(counter)
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save an image when the mouse button is being released.
 		counter += 1
 	else:
@@ -225,7 +225,7 @@ def OnKeyboardEvent(event): #Log a keyboard typing action
 	if (pyHook.GetKeyState(HookConstants.VKeyToID('VK_LSHIFT')) or pyHook.GetKeyState(HookConstants.VKeyToID('VK_RSHIFT'))) and event.KeyID == 27: #esc(key#27)
 		counter += 1	
 		imgname = '%.6d.bmp'%(counter)
-		threading.Thred(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
+		threading.Thread(target = writeIMGthread, args = (memdc, save_path + 'imgs/' + imgname)) #save an image before the mouse button is pressed.(thread)
 		#bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname) #save the last image before exit (screenshot when after everything is done)
 		win32gui.ShowWindow(Minimize,win32con.SW_MAXIMIZE)
 		win32api.PostThreadMessage(main_thread_id, win32con.WM_QUIT, 0, 0)

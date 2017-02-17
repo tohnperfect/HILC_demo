@@ -9,6 +9,8 @@ A visual-based interactive GUI Programming by Demonstration system.
 
 3. The system generate runable script which can automatically perform the demonstrated task.
 
+Now only work on Windows environment. Tested with Windows7 and Windows10.
+
 ##Dependencies
   * `Python2.7`
 

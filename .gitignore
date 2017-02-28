@@ -1,3 +1,4 @@
 *.csv
 *.pickle
 *.whl
+*.pyc

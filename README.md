@@ -16,12 +16,12 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
 
   * `pyHook-1.5.1-cp27-none-win_amd64`
 
-  * python packages (normally come with [Python Anaconda](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
+  * python packages (normally come with [Python Anaconda Installation](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
 
 
 ##Basic Usage
 ### Demonstration phase
-1. run `genLog.py --p=PATH\TO\SAVE\FILE\`
+1. run `genLog.py --p=PATH\TO\SAVE\FILE\` to record user demonstration.
 
 2. demonstrate a task.
    
@@ -32,6 +32,8 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
   * Standby Task
 
 3. when done, press `Shift + Esc` to end the script.
+
+4. run `preprocessing_sniffer_log.py --p=PATH\TO\SAVE\FILE` to transform the generated log file to our unified input format (each consecitive records have time different 1/30s).
 
 ## Reference
 If you use codes in this Repo, please cite our paper, Bibtex entry:

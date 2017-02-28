@@ -1,4 +1,4 @@
-"""pre-processing sniffer log, to make each consecutive record has 1/30s time different."""
+"""pre-processing sniffer log, to make each consecutive records have time different 1/30s."""
 
 import argparse
 

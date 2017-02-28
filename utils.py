@@ -31,7 +31,7 @@ def cal_one_BOF2context(positive_feature,changes,no_sections=3):
 
 def extract_feature(path_to_log,disc=7.,saveimg=False):
 	data=list()
-	with open(path_to_log+'log_sniff.txt','r') as input_file:
+	with open(path_to_log+'log_processed.txt','r') as input_file:
 		for line in input_file:
 			data.append(line.split(','))
 	feature_matrix = numpy.zeros(shape=(len(data),3))
@@ -76,7 +76,7 @@ def extract_feature(path_to_log,disc=7.,saveimg=False):
 def detect_looping_signal_sniff(path_to_log):
 
 	data=list()
-	with open(path_to_log+'log_sniff.txt','r') as input_file:
+	with open(path_to_log+'log_processed.txt','r') as input_file:
 		for line in input_file:
 			data.append(line.split(','))
 
@@ -170,7 +170,7 @@ def detect_looping_signal_sniff(path_to_log):
 
 def getPos_fname_sniff(index,path_to_log,w=50,h=30):
 	data=list()
-	with open(path_to_log+'log_sniff.txt','r') as input_file:
+	with open(path_to_log+'log_processed.txt','r') as input_file:
 		for line in input_file:
 			data.append(line.split(','))
 	x = int(data[index][1])

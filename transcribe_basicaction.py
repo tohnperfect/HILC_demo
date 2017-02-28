@@ -49,7 +49,7 @@ if len(path_to_testset_) > 0:
 	typing_signal_list = [T_]
 	standby_signal_list = [S_]   # added standby
 else:
-	raise SystemExit('please provide path to path_to_testset by --t=PATH')
+	raise SystemExit('please provide path to path_to_testset by --p=PATH')
 
 ### load intermediate model
 num_states = 0
@@ -57,7 +57,7 @@ inter_MODEL_list={}
 for class_ in class_name:
 	with open(path_to_this_script+'{0}_intermediat_CLF.pickle'.format(class_), 'rb') as handle:
 		inter_MODEL_list[class_] = pickle.load(handle)
-		num_states+ = (inter_MODEL_list[class_]['preMODEL'][class_]['num_changes']+1)
+		num_states += (inter_MODEL_list[class_]['preMODEL'][class_]['num_changes']+1)
 
 pre_MODEL_list = inter_MODEL_list[class_]['preMODEL']
 pre_MODEL_classes = inter_MODEL_list[class_]['preMODEL_classes']
@@ -306,7 +306,7 @@ for path_to_testset,loop_signal,typing_signal,standby_signal in izip(path_to_tes
 				if e_action['class'] != 'Typing':
 					print indx,e_action['class'],e_action['fname_start']
 
-			iput = int(raw_input('Please enter the number of step that needed to be editted or {0} if the result is correct\n'.format(len(action_list))))
+			iput = int(raw_input('Please enter the number of step that needed to be editted or enter number {0} if the result is correct\n'.format(len(action_list))))
 
 			if iput < len(action_list):
 				c_iput = int(raw_input('Please enter\n 0 if it is a Click,\n 1 for Double Click,\n 2 for Click Drag, and \n 3 for Right Click\n'))

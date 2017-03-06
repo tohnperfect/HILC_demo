@@ -1,0 +1,17 @@
+1. Looping Question : 
+Left click to add more instance. Right click to toggle between modes: BLUE=positive, RED=negative, YELLOW=unsure, GREEN=supporter. F4 to retrain.
+
+2. Looping Question without RF : 
+FOR LOOPING : Please click on additional clues. What makes object in the GREEN rectangle different from object in the RED rectangle? (Green:real object, RED:object detected by our system)
+
+3. Standby Question : 
+Please click on the pattern you want the system to look for?
+
+4. Question when the system found potential confusing objects (have high score but not as high as the real object) : 
+The system might confuse with appearance in the RED rectangles. Please click to add supporters.
+
+5. Question when the system found wrong object and need user to add supporter or close window without adding any supporter to train RF :
+Please click to add supporters, or close this window to start Detector training. RED=Top result, BLUE=User input
+
+6. Question when the system found wrong (drag)Drop destination : 
+Please click on additional clues that makes the object in the GREEN rectangle the destination of the object in the BLUE rectangle. RED rectangle indicates confusing object.

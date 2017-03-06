@@ -2,7 +2,6 @@
 
 import pickle
 import argparse
-import code
 import os
 import random
 import string
@@ -53,37 +52,38 @@ with open(action_path+'transcript_actionlist.pickle', 'rb') as handle:
 
 ##########################################################################----pygame----###########################################################
 # def displayImage( screen, px):
-#     pygame.draw.rect( screen, (0,255,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31), 2)
-#     pygame.display.flip()
+# 	pygame.draw.rect( screen, (0,255,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31), 2)
+# 	pygame.display.flip()
 
 # def displayImage2( screen, px):
-#     pygame.draw.rect( screen, (0,0,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31))
-#     pygame.display.flip()
+# 	pygame.draw.rect( screen, (0,0,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31))
+# 	pygame.display.flip()
 
 # def displayImage3( screen, px):
-#     pygame.draw.rect( screen, (255,255,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31), 3)
-#     pygame.display.flip()
+# 	pygame.draw.rect( screen, (255,255,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31), 3)
+# 	pygame.display.flip()
 
 def displayBoxes( screen, px, positives, negatives, unsures, supporters):
-    screen.blit(px, px.get_rect())
-    for coor in positives:
-    	pygame.draw.rect( screen, (0,0,255), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 2) #blue real positive
-    for coor in unsures:
-    	pygame.draw.rect( screen, (250,200,20), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 1) #yellow predicted positive
-    for coor in supporters:
-    	pygame.draw.rect( screen, (0,255,0), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 3) #green supporter
-    for coor in negatives:
-    	pygame.draw.rect( screen, (255,0,0), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 2) #red negatives
-    pygame.display.flip()
+	screen.blit(px, px.get_rect())
+	for coor in positives:
+		pygame.draw.rect( screen, (0,0,255), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 2) #blue real positive
+	for coor in unsures:
+		pygame.draw.rect( screen, (250,200,20), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 1) #yellow unsuer positive
+	for coor in supporters:
+		pygame.draw.rect( screen, (0,255,0), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 3) #green supporter
+	for coor in negatives:
+		pygame.draw.rect( screen, (255,0,0), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 2) #red negatives
+	pygame.display.flip()
 
 def setup(path):
-    px = pygame.image.load(path)
-    screen = pygame.display.set_mode( px.get_rect()[2:] )
-    screen.blit(px, px.get_rect())
-    pygame.display.flip()
-    return screen, px
+	px = pygame.image.load(path)
+	screen = pygame.display.set_mode( px.get_rect()[2:] )
+	screen.blit(px, px.get_rect())
+	pygame.display.flip()
+	return screen, px
 
 def mainLoop(screen, px, instances, txt, mode = 'pos'):
+
 	bottomright = None
 	runProgram = True
 	pressL = False
@@ -103,12 +103,15 @@ def mainLoop(screen, px, instances, txt, mode = 'pos'):
 				if pressL:
 					pressL = False
 					instances.append((2*pygame.mouse.get_pos()[0],2*pygame.mouse.get_pos()[1]))
+
 					displayBoxes(screen, px, positives=[], negatives=[], unsures=instances, supporters=[])
 				elif pressR:
 					pressR= False
+
 					ininsta = check_if_in(pygame.mouse.get_pos(),instances)
 					if ininsta is not False:
 						instances.remove(ininsta)
+
 					displayBoxes(screen, px, positives=[], negatives=[], unsures=instances, supporters=[])
 				else:
 					'do noting'
@@ -124,6 +127,7 @@ def check_if_in(point,mainlist,size=30):
 
 
 def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
+
 	runProgram = True
 	pygame.display.set_caption(txt)
 	pressL = False
@@ -234,7 +238,7 @@ def run_pygame(img):
 	bbimgX[:] = img
 
 	for col,row in positivesX:
-		bbimgX=utils.draw_bounding_boxG(bbimgX,col,row)
+	        bbimgX=utils.draw_bounding_boxG(bbimgX,col,row)
 
 	pilbmp = Image.fromarray(numpy.uint8(bbimgX*255))
 	pilbmp.save('temp_selected_img.bmp')
@@ -257,7 +261,6 @@ def run_pygame_asking(img,text):
 
 	return salience
 ##########################################################################----pygame----###########################################################
-
 
 rearranged_actionlist = list()
 HTML = genHTML_header()
@@ -283,7 +286,7 @@ for each_action in actionlist:
 			HTML += '<img src=\"{0}.png\" />&#44;'.format(imname)
 			TEXT += '"{0}.png",'.format(imname)
 			plt.imsave(path_to_save+imname+'.png',im_crop_start)
-			#for classifier training
+			#for training classifier
 			instances.append(each_action['pos_start'])
 			imgs.append(each_action['fname_start']) 
 
@@ -300,10 +303,9 @@ for each_action in actionlist:
 			example_imname = imname
 			HAS_LOOP = True
 
-## find locations of each instance in the list (For sikuliX)
+#find locations of each instance in the list (For sikuliX)
 if HAS_LOOP:
 	print 'find locations of each instance in the list'
-	##
 	if TRAIN_CLASSIFIER:
 		num_insts=len(instances)
 		thresh=0.7
@@ -338,7 +340,7 @@ if HAS_LOOP:
 			template = padded_img[max(each_sup[1],0):min(each_sup[1]+(2*size)+1,padded_img.shape[0]),max(each_sup[0],0):min(each_sup[0]+(2*size)+1,padded_img.shape[1]),:]
 
 			####### 1st with NCC ###########
-			matched = match_template(padded_img,template)[:,:,0]#matched = numpy.squeeze(signal.correlate2d(padded_img[:,:,0],template[:,:,0],mode='valid'))#
+			matched = match_template(padded_img,template)[:,:,0]
 			predict = numpy.empty_like(matched)
 			predict[:] = matched
 			rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
@@ -358,17 +360,17 @@ if HAS_LOOP:
 				for X_max,Y_max in zip(colsI,rowsI):
 					if numpy.dot([Y_max-each_sup[1],X_max-each_sup[0]],[Y_max-each_sup[1],X_max-each_sup[0]]) > 10:
 						neglist.append((X_max,Y_max))
-
+				
 				if len(colsI)>0:
 					print 'in-2 number of false positives = {0}'.format(len(neglist))
 					####### 3nd with rf hard negative ###########  we keep adding hard negative until there is no more to add
 					supporter_instances_clf = utils.learn_img_classifier(training_img,each_sup,hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
 					predictII = utils.locateIMG(training_img,supporter_instances_clf)
 					rowsI,colsI = utils.nonMaxSuppress_nonZero(predictII,thresh=thresh)
-
 					for X_max,Y_max in zip(colsI,rowsI):
 						if numpy.dot([Y_max-each_sup[1],X_max-each_sup[0]],[Y_max-each_sup[1],X_max-each_sup[0]]) > 10:
 							neglist.append((X_max,Y_max))
+
 				supporter_clf.append(supporter_instances_clf)
 
 		loop_action['supporter_clf'] = supporter_clf
@@ -401,7 +403,9 @@ if HAS_LOOP:
 				print 'Question? : '
 				print questions[4]
 				saliences_list.append(run_pygame_asking(bbimg,questions[4]))
+
 		loop_action['saliences_list'] = saliences_list
+
 	rearranged_actionlist.append(loop_action)
 
 IN_LOOP = False
@@ -422,6 +426,7 @@ for each_action in actionlist:
 	print each_action['class']
 	try:
 		if each_action['class'] == 'standby':
+
 			standby_img = each_action['wait_img']
 			print 'Question? : '
 			print questions[7]
@@ -503,7 +508,7 @@ for each_action in actionlist:
 						print 'Question? : '
 						print questions[10]
 						saliences = run_pygame_asking(bbimg,questions[10])
-
+						
 						#when the user doesnt provide supporters
 						if len(saliences) == 0:
 							padded_img = numpy.zeros(shape=(im_before_start.shape[0]+(2*size),im_before_start.shape[1]+(2*size),im_before_start.shape[2]))
@@ -511,7 +516,7 @@ for each_action in actionlist:
 							template = padded_img[max(each_action['pos_start'][1],0):min(each_action['pos_start'][1]+(2*size)+1,padded_img.shape[0]),max(each_action['pos_start'][0],0):min(each_action['pos_start'][0]+(2*size)+1,padded_img.shape[1]),:]
 
 							####### 1st with NCC ###########
-							matched = match_template(padded_img,template)[:,:,0]
+							matched = match_template(padded_img,template)[:,:,0]#matched = numpy.squeeze(signal.correlate2d(padded_img[:,:,0],template[:,:,0],mode='valid'))#
 							predict = numpy.empty_like(matched)
 							predict[:] = matched
 							rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
@@ -536,6 +541,7 @@ for each_action in actionlist:
 									action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
 
 								each_action['action_clf']=action_instances_clf
+
 					else:
 						saliences = []
 
@@ -547,13 +553,14 @@ for each_action in actionlist:
 					print 'Question? : '
 					print questions[13]
 					saliences = run_pygame_asking(bbimg,questions[13])
-					if len(saliences) == 0:
 
+					if len(saliences) == 0:
 						padded_img = numpy.zeros(shape=(im_before_start.shape[0]+(2*size),im_before_start.shape[1]+(2*size),im_before_start.shape[2]))
 						padded_img[size:-size,size:-size,:] = im_before_start
 						template = padded_img[max(each_action['pos_start'][1],0):min(each_action['pos_start'][1]+(2*size)+1,padded_img.shape[0]),max(each_action['pos_start'][0],0):min(each_action['pos_start'][0]+(2*size)+1,padded_img.shape[1]),:]
+
 						####### 1st with NCC ###########
-						matched = match_template(padded_img,template)[:,:,0]
+						matched = match_template(padded_img,template)[:,:,0]#matched = numpy.squeeze(signal.correlate2d(padded_img[:,:,0],template[:,:,0],mode='valid'))#
 						predict = numpy.empty_like(matched)
 						predict[:] = matched
 						rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
@@ -568,11 +575,11 @@ for each_action in actionlist:
 							action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
 							predictII = utils.locateIMG(im_before_start,action_instances_clf)
 							rowsI,colsI = utils.nonMaxSuppress_nonZero(predictII,thresh=thresh)
-				
+
 							for X_max,Y_max in zip(colsI,rowsI):
 								if numpy.dot([Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]],[Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]]) > 10:
 									neglist.append((X_max,Y_max))
-							
+
 							if len(colsI)>0:
 								####### 3nd with rf hard negative ###########  we keep adding hard negative until there is no more to add
 								action_instances_clf = utils.learn_img_classifier(im_before_start,each_sup,hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
@@ -587,7 +594,7 @@ for each_action in actionlist:
 						offset=(each_action['pos_start'][0]-each_salience[0],each_action['pos_start'][1]-each_salience[1])
 						salience_clf = utils.learn_img_classifier(im_before_start,each_salience)
 						detector_list.append({'offset':offset,'clf':salience_clf})
-					
+
 					predicted_list=list()
 					print 'predicting'
 					PREDICT=numpy.zeros(im_before_start.shape[:2])
@@ -610,6 +617,7 @@ for each_action in actionlist:
 
 			if each_action['class'] == 'Click':
 				imname = ''.join([random.choice(string.letters+string.digits) for i in xrange(16)])
+
 				if prev_time > 0:
 					TEXT += 'sleep({0})\n'.format(0.033*(each_action['start']-prev_time))
 
@@ -626,6 +634,7 @@ for each_action in actionlist:
 
 			elif each_action['class'] == 'RClick':
 				imname = ''.join([random.choice(string.letters+string.digits) for i in xrange(16)])
+
 				if prev_time > 0:
 					TEXT += 'sleep({0})\n'.format(0.033*(each_action['start']-prev_time))
 
@@ -642,6 +651,7 @@ for each_action in actionlist:
 
 			elif each_action['class'] == 'DoubleClick':
 				imname = ''.join([random.choice(string.letters+string.digits) for i in xrange(16)])
+
 				if prev_time > 0:
 					TEXT += 'sleep({0})\n'.format(0.033*(each_action['start']-prev_time))
 
@@ -675,6 +685,7 @@ for each_action in actionlist:
 				prev_time = each_action['end']
 
 				if numpy.dot([each_action['pos_start'][1]-each_action['pos_end'][1],each_action['pos_start'][0]-each_action['pos_end'][0]],[each_action['pos_start'][1]-each_action['pos_end'][1],each_action['pos_start'][0]-each_action['pos_end'][0]]) > 5 :
+					size = 30
 					padded_img = numpy.zeros(shape=(im_before_start.shape[0]+(2*size),im_before_start.shape[1]+(2*size),im_before_start.shape[2]))
 					padded_img[size:-size,size:-size,:] = im_before_start
 					template = padded_img[max(each_action['pos_end'][1],0):min(each_action['pos_end'][1]+(2*size)+1,padded_img.shape[0]),max(each_action['pos_end'][0],0):min(each_action['pos_end'][0]+(2*size)+1,padded_img.shape[1]),:]
@@ -699,6 +710,7 @@ for each_action in actionlist:
 							print 'Question? : '
 							print questions[16]
 							saliences = run_pygame_asking(bbimg,questions[16])
+
 						else:
 							saliences = []
 
@@ -711,6 +723,7 @@ for each_action in actionlist:
 						print 'Question? : '
 						print questions[16]
 						saliences = run_pygame_asking(bbimg,questions[16])
+
 				else:
 					each_action['same_as_start'] = True
 
@@ -728,6 +741,7 @@ for each_action in actionlist:
 						HTML += '&#09;'
 					if TYPE not in string.letters+string.digits+'.?!+-*/':
 						HTML += '<span class=\"skw\">Type</span>(<span class=\"skw\">key</span>({0}))\n'.format(TYPE)
+
 						if IN_LOOP:
 							TEXT += '\ttype(Key.{0})\n'.format(TYPE)
 						else:
@@ -735,6 +749,7 @@ for each_action in actionlist:
 
 					else:
 						HTML += '<span class=\"skw\">Type</span>({0})\n'.format(TYPE)
+
 						if IN_LOOP:
 							TEXT += '\ttype({0})\n'.format(TYPE)
 						else:
@@ -745,22 +760,24 @@ for each_action in actionlist:
 			rearranged_actionlist.append(each_action)
 
 	except RuntimeError:
-		raise SystemExit('error in transcription line:748')
+		raise SystemExit('error in transcription line:763')
 
-## train classifier for standby 
+#train classifier for standby 
 for each_action in rearranged_actionlist:
 	if each_action['class'] == 'standby':
+		#if len(standby_imgs_list) == 2: #first mouse click action click on the object we want to standby for
 		thresh = 0.5
 		padded_img = numpy.zeros(shape=(each_action['wait_img'].shape[0]+(2*size),each_action['wait_img'].shape[1]+(2*size),each_action['wait_img'].shape[2]))
 		padded_img[size:-size,size:-size,:] = each_action['wait_img']
 		template = padded_img[max(looking_for_this[1],0):min(looking_for_this[1]+(2*size)+1,padded_img.shape[0]),max(looking_for_this[0],0):min(looking_for_this[0]+(2*size)+1,padded_img.shape[1]),:]
-
+		
 		####### 1st with NCC ###########
-		matched = match_template(padded_img,template)[:,:,0]#matched = numpy.squeeze(signal.correlate2d(padded_img[:,:,0],template[:,:,0],mode='valid'))#
+		matched = match_template(padded_img,template)[:,:,0]
 		predict = numpy.empty_like(matched)
 		predict[:] = matched
 		rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
 		neglist=list()
+
 		for X_max,Y_max in zip(colsI,rowsI):
 			if numpy.dot([Y_max-looking_for_this[1],X_max-looking_for_this[0]],[Y_max-looking_for_this[1],X_max-looking_for_this[0]]) > 10:
 				neglist.append((X_max,Y_max))
@@ -776,6 +793,7 @@ for each_action in rearranged_actionlist:
 		####### 3nd with rf hard negative ###########  we keep adding hard negative until there is no more to add
 		standby_instances_clf = utils.learn_img_classifier_standby(standby_imgs_list,looking_for_this_list,hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
 		predictIII = utils.locateIMG(each_action['wait_img'],standby_instances_clf)
+
 		each_action['standby_clf'] = standby_instances_clf
 
 with open(path_to_save+save_path+'.py','w') as f:
@@ -789,5 +807,3 @@ print 'done!!'
 
 with open(action_path+'prepared_actionlist.pickle', 'wb') as handle:
 	pickle.dump(rearranged_actionlist, handle)
-
-

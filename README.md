@@ -18,7 +18,7 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
 
   * python packages (normally come with [Python Anaconda Installation](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
 
-  * scikit-learn version < 0.18. IF your machine has version >= 0.18 and is using `Anaconda`, the package can be downgrade by running `conda install scikit-learn=0.17.1`.
+  * scikit-learn version < 0.18. If your machine has version >= 0.18 and is using `Anaconda`, the package can be downgrade by running `conda install scikit-learn=0.17.1`.
 
   * Download pre-trained models (.pickle files) and pairwise potential (.csv file) from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 

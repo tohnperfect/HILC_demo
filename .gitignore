@@ -2,3 +2,4 @@
 *.pickle
 *.whl
 *.pyc
+temp_input_img.bmp

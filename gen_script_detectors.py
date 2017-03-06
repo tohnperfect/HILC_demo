@@ -414,7 +414,7 @@ IN_WAIT = False
 WAIT_FOR_1_ACTION = False
 test_frames = sorted(os.listdir(path_to_imgs))
 data=list()
-with open(action_path + '/log_sniff.txt','r') as input_file:
+with open(action_path + 'log_processed.txt','r') as input_file:
 	for line in input_file:
 		data.append(line.split(','))
 

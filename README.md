@@ -14,7 +14,7 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
 ##Dependencies
   * `Python2.7`
 
-  * `pyHook-1.5.1-cp27-none-win_amd64`
+  * `pyHook-1.5.1` and `pygame-1.9.20`. Both dependencies can be download the `wheel` files [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing) and use `pip` to install by running `pip install WHEEL_FILE_NAME`.
 
   * python packages (normally come with [Python Anaconda Installation](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
 
@@ -40,6 +40,8 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
 
 5. run `python transcribe_basicaction.py --p=PATH\TO\SAVE\FILE` to transcibe the log-file to a sequence of basic actions. <br/>
 This script needs to load pre-trained model and pairwise potential files to do basic action classification. The pre-trained models and pairwise potential can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
+
+6. (Teaching phase) run `python gen_script_detectors.py --p=PATH\TO\SAVE\FILE` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
 ## Reference
 If you use codes in this Repo, please cite our paper, Bibtex entry:

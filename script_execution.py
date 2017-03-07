@@ -1,5 +1,5 @@
 """ for each basic action in the transcribed sequence, 
-scan the current screenshot to find the target pattern and apply basic action to that pattern.""""
+scan the current screenshot to find the target pattern and apply basic action to that pattern."""
 
 import pyautogui as GUIbot # using as a robot to control mice and keyboards and also screenshot function
 from time import sleep # for setting time delay

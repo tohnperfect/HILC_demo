@@ -32,10 +32,9 @@ Run the Windows PowerShell script `run_all.ps1` to run all steps
 
 Run each step as follows,
 
-[Demonstration phase]
-1. run `python genLog.py --p=PATH\TO\SAVE\FILE\` to record user demonstration.
+1. [Demonstration phase] run `python genLog.py --p=PATH\TO\SAVE\FILE\` to record user demonstration.
 
-2. demonstrate a task.
+2. [Demonstration phase] demonstrate a task.
    
   * Linear Task
 
@@ -43,18 +42,16 @@ Run each step as follows,
 
   * Standby Task
 
-3. when done, press `Shift + Esc` to end the script.
+3. [Demonstration phase] when done, press `Shift + Esc` to end the script.
 
-4. run `python preprocessing_sniffer_log.py --p=PATH\TO\SAVE\FILE` to transform the generated log file to our unified input format (each consecitive records have time different 1/30s).
+4. [Demonstration phase] run `python preprocessing_sniffer_log.py --p=PATH\TO\SAVE\FILE` to transform the generated log file to our unified input format (each consecitive records have time different 1/30s).
 
-5. run `python transcribe_basicaction.py --p=PATH\TO\SAVE\FILE` to transcibe the log-file to a sequence of basic actions. <br/>
+5. [Demonstration phase] run `python transcribe_basicaction.py --p=PATH\TO\SAVE\FILE` to transcibe the log-file to a sequence of basic actions. <br/>
 This script needs to load pre-trained model and pairwise potential files to do basic action classification. The pre-trained models and pairwise potential can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
-[Teaching phase]
-6. run `python gen_script_detectors.py --p=PATH\TO\SAVE\FILE` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
+6. [Teaching phase] run `python gen_script_detectors.py --p=PATH\TO\SAVE\FILE` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
-[Running phase]
-7. run `python script_execution.py --p=PATH\TO\SAVE\FILE` to run the generated script.
+7. [Running phase] run `python script_execution.py --p=PATH\TO\SAVE\FILE` to run the generated script.
 
 ## Reference
 If you use codes in this Repo, please cite our paper, Bibtex entry:

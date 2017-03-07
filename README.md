@@ -26,7 +26,7 @@ Now HILC only works on Windows environment. Tested with Windows7 and Windows10.
 
 ##Basic Usage
 
-Run the Windows PowerShell script `run_all.ps1` to run all steps
+Run the Windows PowerShell script `run_all.ps1` to run all steps.
 
 ###OR
 

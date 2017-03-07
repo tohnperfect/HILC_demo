@@ -33,7 +33,6 @@ Run the Windows PowerShell script `run_all.ps1` to run all steps
 Run each step as follows,
 
 [Demonstration phase]
-
 1. run `python genLog.py --p=PATH\TO\SAVE\FILE\` to record user demonstration.
 
 2. demonstrate a task.
@@ -52,11 +51,9 @@ Run each step as follows,
 This script needs to load pre-trained model and pairwise potential files to do basic action classification. The pre-trained models and pairwise potential can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
 [Teaching phase]
-
 6. run `python gen_script_detectors.py --p=PATH\TO\SAVE\FILE` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
 [Running phase]
-
 7. run `python script_execution.py --p=PATH\TO\SAVE\FILE` to run the generated script.
 
 ## Reference

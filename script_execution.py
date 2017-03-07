@@ -13,6 +13,7 @@ from skimage.feature import match_template
 import win32gui,win32con
 import pygame
 from PIL import Image
+import ctypes
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--p', type=str, help='path to action list', default='')
@@ -20,6 +21,10 @@ parser.add_argument('--l', type=bool, help='if True, users define looping instan
 parser.add_argument('--d', type=bool, help='if True, enter debug mode', default=False)
 parser.add_argument('--q', type=bool, help='if True, enter query mode', default=False)
 args = parser.parse_args()
+
+##solve HiDPI display. This 2 lines are needed if you run the script on High DPI screen, without them screen resolution and cursor coordinate will be incorrect.
+user32 = ctypes.windll.user32
+user32.SetProcessDPIAware()
 
 action_path = args.p
 DEBUG = args.d
@@ -831,7 +836,7 @@ if MONITOR:
 							LOOP_ACTIONS.append(each_action)
 
 win32gui.ShowWindow(Minimize,win32con.SW_MAXIMIZE)
-
-print 'press CTRL+D to save updated action or type exit() to exit without saving'
-with open(action_path+'updated_prepared_actionlist.pickle', 'wb') as handle:
-	pickle.dump([actionlist,LOOP_ACTIONS], handle)
+print 'Done. Thank you for using.'
+# print 'press CTRL+D to save updated action or type exit() to exit without saving'
+# with open(action_path+'updated_prepared_actionlist.pickle', 'wb') as handle:
+# 	pickle.dump([actionlist,LOOP_ACTIONS], handle)

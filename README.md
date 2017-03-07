@@ -3,11 +3,11 @@ Codes for Demo version of the [HILC project](http://visual.cs.ucl.ac.uk/pubs/HIL
 
 A visual-based interactive GUI Programming by Demonstration system.
 
-1. User demonstrates a desktop task. (run `genLog.py`)
+1. The user demonstrates a desktop task. (run `genLog.py`)
 
-2. The system asks use to clearify some confusing parts, if any.
+2. The system asks the user to clearify some confusing parts, if any. (run `gen_script_detectors.py`)
 
-3. The system generate runable script which can automatically perform the demonstrated task.
+3. The system generates runable script which can automatically perform the demonstrated task.
 
 Now only work on Windows environment. Tested with Windows7 and Windows10.
 

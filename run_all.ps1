@@ -1,7 +1,7 @@
 Write-Host "Generate log file";
 python genLog.py --p=$args
 Write-Host "Transcribing basic actions";
-python preprocess_sniffer_log.py --p=$args
+python preprocessing_sniffer_log.py --p=$args
 python transcribe_basicaction.py --p=$args
 Write-Host "Training the detections";
 python gen_script_detectors.py --p=$args

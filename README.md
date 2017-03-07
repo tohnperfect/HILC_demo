@@ -3,18 +3,20 @@ Codes for Demo version of the [HILC project](http://visual.cs.ucl.ac.uk/pubs/HIL
 
 A visual-based interactive GUI Programming by Demonstration system.
 
-1. The user demonstrates a desktop task. (run `genLog.py`)
+1. The user demonstrates a desktop task. (see `genLog.py`)
 
-2. The system asks the user to clearify some confusing parts, if any. (run `gen_script_detectors.py`)
+2. The system asks the user to clearify some confusing parts, if any. (see `gen_script_detectors.py`)
 
-3. The system generates runable script which can automatically perform the demonstrated task.
+3. The system generates runable script which can automatically perform the demonstrated task. (see `script_execution.py`)
 
-Now only work on Windows environment. Tested with Windows7 and Windows10.
+Now HILC only works on Windows environment. Tested with Windows7 and Windows10.
 
 ##Dependencies
   * `Python2.7`
 
   * `pyHook-1.5.1` and `pygame-1.9.20`. Both dependencies can be download the `wheel` files [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing) and use `pip` to install by running `pip install WHEEL_FILE_NAME`.
+
+  * `pyautogui` for mice and keyboards controlling. the package can be installed by running `pip install pyautogui`
 
   * python packages (normally come with [Python Anaconda Installation](https://www.continuum.io/downloads)) `win32con,win32api,win32ui,win32gui,matplotlib`
 
@@ -23,7 +25,14 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
   * Download pre-trained models (.pickle files) and pairwise potential (.csv file) from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
 ##Basic Usage
-### Demonstration phase
+
+Run the Windows PowerShell script `run_all.ps1` to run all steps
+
+###OR
+
+Run each step as follows,
+
+#### Demonstration phase
 1. run `python genLog.py --p=PATH\TO\SAVE\FILE\` to record user demonstration.
 
 2. demonstrate a task.
@@ -41,7 +50,11 @@ Now only work on Windows environment. Tested with Windows7 and Windows10.
 5. run `python transcribe_basicaction.py --p=PATH\TO\SAVE\FILE` to transcibe the log-file to a sequence of basic actions. <br/>
 This script needs to load pre-trained model and pairwise potential files to do basic action classification. The pre-trained models and pairwise potential can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
-6. (Teaching phase) run `python gen_script_detectors.py --p=PATH\TO\SAVE\FILE` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
+#### Teaching phase
+6. run `python gen_script_detectors.py --p=PATH\TO\SAVE\FILE` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be download from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
+
+#### Running phase
+7. run `python script_execution.py --p=PATH\TO\SAVE\FILE` to run the generated script.
 
 ## Reference
 If you use codes in this Repo, please cite our paper, Bibtex entry:

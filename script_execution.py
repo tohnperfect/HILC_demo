@@ -833,6 +833,5 @@ if MONITOR:
 win32gui.ShowWindow(Minimize,win32con.SW_MAXIMIZE)
 
 print 'press CTRL+D to save updated action or type exit() to exit without saving'
-code.interact(local=dict(globals(),**locals()))
 with open(action_path+'updated_prepared_actionlist.pickle', 'wb') as handle:
 	pickle.dump([actionlist,LOOP_ACTIONS], handle)

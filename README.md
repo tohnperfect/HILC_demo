@@ -40,13 +40,13 @@ Run each step as follows,
 
 >> Demonstration.
 
-  * Looping Task : for looping tasks users need to input the Looping signals (Ctrl+Shift+L) or (Ctrl+Shift+Break). The demonstration procedure for the looping task is as follows,
+  * Looping Task : for looping tasks users need to input the __Looping signals__ (Ctrl+Shift+L) or (Ctrl+Shift+Break). The demonstration procedure for the looping task is as follows,
 
->> Looping Signal > Demonstration > Looping Signal > Ctrl+Click on positive instances, providing examples of target patterns > Looping signal.
+>> __Looping Signal__ > Demonstration > __Looping Signal__ > Ctrl+Click on positive instances, providing examples of target patterns > __Looping Signal__.
 
-  * monitoring Task : for monitoring tasks users need to input the standby signals (Ctrl+Shift+W) or (Ctrl+Shift+PrtScr). The demonstration procedure for the monitoring task is as follows,
+  * monitoring Task : for monitoring tasks users need to input the __Standby Signals__ (Ctrl+Shift+W) or (Ctrl+Shift+PrtScr). The demonstration procedure for the monitoring task is as follows,
 
->> When the visual cue appears > Standby signal > Demonstration.
+>> When the visual cue appears > __Standby Signal__ > Demonstration.
 
 3. [Demonstration phase] when the task demonstration is done, press `Shift + Esc` to end the sniffing script.
 

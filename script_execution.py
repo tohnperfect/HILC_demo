@@ -204,7 +204,6 @@ for each_action in actionlist:
 					plt.imshow(PREDICT)
 					plt.show()
 					print 'DB0'
-					code.interact(local=dict(globals(),**locals()))
 			
 		elif each_action['class'] == 'end_loop':
 			IN_LOOP = False
@@ -291,7 +290,6 @@ for each_action in actionlist:
 								plt.imshow(PREDICT)
 								plt.show()
 								print 'DB1'
-								code.interact(local=dict(globals(),**locals()))
 
 							GUIbot.moveTo(X_max,Y_max,duration=duration)
 							
@@ -653,7 +651,7 @@ if MONITOR:
 										plt.imshow(PREDICT)
 										plt.show()
 										print 'DB1'
-										code.interact(local=dict(globals(),**locals()))
+
 									GUIbot.moveTo(X_max,Y_max,duration=duration)
 
 								try:
@@ -836,7 +834,7 @@ if MONITOR:
 							LOOP_ACTIONS.append(each_action)
 
 win32gui.ShowWindow(Minimize,win32con.SW_MAXIMIZE)
-print 'Done. Thank you for using.'
+print 'Thank you for using HILC.'
 # print 'press CTRL+D to save updated action or type exit() to exit without saving'
 # with open(action_path+'updated_prepared_actionlist.pickle', 'wb') as handle:
 # 	pickle.dump([actionlist,LOOP_ACTIONS], handle)

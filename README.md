@@ -36,15 +36,15 @@ Run each step as follows,
 
 2. [Demonstration phase] demonstrate a task.
 
-  * Linear Task : The demonstration procedure for the looping task is simply just a demonstration,
+> * Linear Task : The demonstration procedure for the looping task is simply just a demonstration,
 
 >> Demonstration.
 
-  * Looping Task : for looping tasks users need to input the __Looping signals__ (Ctrl+Shift+L) or (Ctrl+Shift+Break). The demonstration procedure for the looping task is as follows,
+> * Looping Task : for looping tasks users need to input the __Looping signals__ (Ctrl+Shift+L) or (Ctrl+Shift+Break). The demonstration procedure for the looping task is as follows,
 
 >> __Looping Signal__ > Demonstration > __Looping Signal__ > Ctrl+Click on positive instances, providing examples of target patterns > __Looping Signal__.
 
-  * monitoring Task : for monitoring tasks users need to input the __Standby Signals__ (Ctrl+Shift+W) or (Ctrl+Shift+PrtScr). The demonstration procedure for the monitoring task is as follows,
+> * monitoring Task : for monitoring tasks users need to input the __Standby Signals__ (Ctrl+Shift+W) or (Ctrl+Shift+PrtScr). The demonstration procedure for the monitoring task is as follows,
 
 >> When the visual cue appears > __Standby Signal__ > Demonstration.
 

@@ -35,14 +35,20 @@ Run each step as follows,
 1. [Demonstration phase] run `python genLog.py --p=PATH\TO\SAVE\FOLDER\` to record user demonstration.
 
 2. [Demonstration phase] demonstrate a task.
-   
-  * Linear Task
 
-  * Looping Task
+> * Linear Task : The demonstration procedure for the looping task is simply just a demonstration,
 
-  * Standby Task
+>> Demonstration.
 
-3. [Demonstration phase] when done, press `Shift + Esc` to end the script.
+> * Looping Task : for looping tasks users need to input the __Looping signals__ (Ctrl+Shift+L) or (Ctrl+Shift+Break). The demonstration procedure for the looping task is as follows,
+
+>> __Looping Signal__ > Demonstration > __Looping Signal__ > Ctrl+Click on positive instances, providing examples of target patterns > __Looping Signal__.
+
+> * monitoring Task : for monitoring tasks users need to input the __Standby Signals__ (Ctrl+Shift+W) or (Ctrl+Shift+PrtScr). The demonstration procedure for the monitoring task is as follows,
+
+>> When the visual cue appears > __Standby Signal__ > Demonstration.
+
+3. [Demonstration phase] when the task demonstration is done, press `Shift + Esc` to end the sniffing script.
 
 4. [Demonstration phase] run `python preprocessing_sniffer_log.py --p=PATH\TO\SAVE\FOLDER\` to transform the generated log file to our unified input format (each consecitive records have time different 1/30s).
 

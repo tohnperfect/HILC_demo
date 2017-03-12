@@ -304,7 +304,10 @@ for path_to_testset,loop_signal,typing_signal,standby_signal in izip(path_to_tes
 			### iput is the action which the user need to modify.
 			for indx,e_action in enumerate(action_list):
 				if e_action['class'] != 'Typing':
-					print indx,e_action['class'],e_action['fname_start']
+					if 'fname_start' in e_action:
+						print indx,e_action['class'],e_action['fname_start']
+					else: ## loop and standby signals here
+						print indx,e_action['class']
 
 			iput = int(raw_input('Please enter the number of step that needed to be editted or enter number {0} if the result is correct\n'.format(len(action_list))))
 
@@ -329,9 +332,10 @@ for path_to_testset,loop_signal,typing_signal,standby_signal in izip(path_to_tes
 					else:
 						found = True
 
+				### update unary cost for the basic action fixed by the teacher
 				i_change = 0
 				for indx,e_action in enumerate(action_list):
-					if e_action['class'] != 'Typing':
+					if e_action['class'] in class_name:#!= 'Typing':
 						this_num_changes = pre_MODEL_list[e_action['class']]['num_changes']
 						if indx != iput:
 							i_change += (this_num_changes+1)

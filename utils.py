@@ -677,6 +677,7 @@ def locateIMG_with_supporter(img2search, supporters, MODEL_main_supporter, size 
 
 				test_rows = list()
 				test_cols = list()
+				### for each supporter found, give high score for that vertical and horizontal locations
 				for each_sup in supporters:
 					test_cols.append(start_col + col_gradient[:end_row-start_row,:end_col-start_col] - each_sup[0]-size)
 					test_rows.append(start_row + row_gradient[:end_row-start_row,:end_col-start_col] - each_sup[1]-size)
@@ -698,10 +699,11 @@ def locateIMG_with_supporter(img2search, supporters, MODEL_main_supporter, size 
 				(each_c_sec*(max_win_size-(2*size))):min((each_c_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),col)] \
 				= MODEL.predict_proba(win_list_rs[:,:11163])[:,1].reshape(win_list.shape[:2])
 
-				if len(supporters)>0:
-					img_predict[(each_r_sec*(max_win_size-(2*size))):min((each_r_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),row), \
-					(each_c_sec*(max_win_size-(2*size))):min((each_c_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),col)] \
-					*= MODEL_supporter.predict_proba(win_list_rs[:,11163:])[:,1].reshape(win_list.shape[:2])
+				# I totolly forgot what was these following part for, but it should not be crucial
+				# if len(supporters)>0:
+				# 	img_predict[(each_r_sec*(max_win_size-(2*size))):min((each_r_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),row), \
+				# 	(each_c_sec*(max_win_size-(2*size))):min((each_c_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),col)] \
+				# 	*= MODEL_supporter.predict_proba(win_list_rs[:,11163:])[:,1].reshape(win_list.shape[:2])
 
 	elif classifier == 'ada':
 		result_img = MODEL.predict_feature_matrix(padded_img, test_whole_cascade = True)

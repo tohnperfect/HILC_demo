@@ -11,7 +11,7 @@ Please click on the pattern you want the system to look for?
 The system might confuse with appearance in the RED rectangles. Please click to add supporters.
 
 5. Question when the system found wrong object and need user to add supporter or close window without adding any supporter to train RF :
-Please click to add supporters, or close this window to start Detector training. RED=Top result, BLUE=User input
+Please click to add supporters, or close this window to start Detector training. RED=Top result, GREEN=User input
 
 6. Question when the system found wrong (drag)Drop destination : 
 Please click on additional clues that makes the object in the GREEN rectangle the destination of the object in the BLUE rectangle. RED rectangle indicates confusing object.

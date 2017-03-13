@@ -582,7 +582,7 @@ for each_action in actionlist:
 
 							if len(colsI)>0:
 								####### 3nd with rf hard negative ###########  we keep adding hard negative until there is no more to add
-								action_instances_clf = utils.learn_img_classifier(im_before_start,each_sup,hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
+								action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
 
 						each_action['action_clf']=action_instances_clf
 

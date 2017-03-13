@@ -138,13 +138,15 @@ for each_action in actionlist:
 			else:
 				if TRAINED:
 					found_sup = list()
-					if len(sup_clf)>0:
+
+					### looking for supporters
+					if len(sup_clf)>0: #if there exists a trained detector for supporter
 						for each_sup_clf in sup_clf:
 							PREDICT = utils.locateIMG(SS_img,each_sup_clf)
 							flat_index=numpy.argmax(PREDICT)
 							Y_max,X_max=numpy.unravel_index(flat_index,PREDICT.shape)
 							found_sup.append((X_max,Y_max))
-					else:
+					else: #if there is no trained supporters, use NCC to find supporter
 						for each_sup in loop_sup:
 							size=30
 							padded_img_SP = numpy.zeros(shape=(loop_img.shape[0]+(2*size),loop_img.shape[1]+(2*size),loop_img.shape[2]))
@@ -384,6 +386,7 @@ for each_action in actionlist:
 						mom = lambda s: max(0,s)
 
 						PREDICT += (1.2 * match_template(padded_img,template)[:,:,0]) #weight the main template a little bit higher
+						### add supporters' scores
 						for x,y in each_action['saliences']:
 							template = padded_img_TP[max(y,0):min(y+(2*size)+1,padded_img_TP.shape[0]), \
 													 max(x,0):min(x+(2*size)+1,padded_img_TP.shape[1]),:]

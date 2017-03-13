@@ -36,7 +36,7 @@ with open('pygame_question_genscript.txt','r') as input_file:
 		questions.append(line)
 
 path_to_imgs = action_path + 'imgs\\'
-path_to_save = action_path+save_path+'.sikuli\\'
+path_to_save = action_path+save_path+'script_visualize\\'
 
 if not os.path.exists(path_to_save):	
 	os.mkdir(path_to_save)
@@ -305,7 +305,7 @@ for each_action in actionlist:
 
 #find locations of each instance in the list (For sikuliX)
 if HAS_LOOP:
-	print 'find locations of each instance in the list'
+	print 'find the location of each instance in the list'
 	if TRAIN_CLASSIFIER:
 		num_insts=len(instances)
 		thresh=0.7

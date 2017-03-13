@@ -205,6 +205,7 @@ def OnKeyboardEvent(event): #Log a keyboard typing action
 
 	f_,h_,mospos = win32gui.GetCursorInfo()
 	global counter
+	global memdc
 	CTRL = ''
 	SHIFT = ''
 	#check if Shift key is down.
@@ -239,6 +240,8 @@ def OnKeyboardEvent(event): #Log a keyboard typing action
 	#standby signal (Shift+Control+w or Shift+Control+PrtScr)
 	elif pyHook.GetKeyState(HookConstants.VKeyToID('VK_LSHIFT')) and pyHook.GetKeyState(HookConstants.VKeyToID('VK_LCONTROL')) and (event.Key == 'W' or event.Key == 'Snapshot'):
 		if saveSS:
+			
+			memdc.BitBlt((0, 0), (WIDTH , HEIGHT), srcdc, (0, 0), win32con.SRCCOPY) #load the screenshot into memory
 			imgname = '%.6d.bmp'%(counter)
 			bmp.SaveBitmapFile(memdc, save_path + 'imgs/' + imgname)
 			counter += 1

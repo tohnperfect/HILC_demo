@@ -120,7 +120,7 @@ for each_action in actionlist:
 			plt.show()
 
 		#create list of object to loop
-		if each_action['class'] == 'instance_list':
+		if each_action['class'] == 'instance_list': ## create instances lists. 
 			loop_img = each_action['removed_pt_img']
 			if 'detector' in each_action:
 				loop_clf = each_action['detector']
@@ -131,7 +131,7 @@ for each_action in actionlist:
 				saliences_list = each_action['saliences_list']
 
 			instances = each_action['instances']
-		elif each_action['class'] == 'start_loop':
+		elif each_action['class'] == 'start_loop': ## use instances lists and trained detectors to create a list of location to be loop iterators.
 			IN_LOOP = True
 			if DEFINE:
 				highXs,highYs = zip(*run_pygame(SS_img, 'Please click on instances you want to loop through.'))

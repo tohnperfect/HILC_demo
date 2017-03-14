@@ -181,14 +181,15 @@ for each_action in actionlist:
 						non = lambda s: s if s<0 else None
 						mom = lambda s: max(0,s)
 
-						for x,y in saliences_list[indx_loop]:
-							template = padded_img_TP[max(y,0):min(y+(2*size)+1,loop_img.shape[0]), \
-													 max(x,0):min(x+(2*size)+1,loop_img.shape[1]),:]
-							pred = match_template(padded_img,template)[:,:,0]	 
-							ox,oy = (instances[indx_loop][0]-x,instances[indx_loop][1]-y)
-							shift_pred = numpy.zeros_like(pred)
-							shift_pred[mom(oy):non(oy), mom(ox):non(ox)] = pred[mom(-oy):non(-oy), mom(-ox):non(-ox)]
-							PREDICT += shift_pred
+						### disable the use of supporters here for now.
+						# for x,y in saliences_list[indx_loop]:
+						# 	template = padded_img_TP[max(y,0):min(y+(2*size)+1,loop_img.shape[0]), \
+						# 							 max(x,0):min(x+(2*size)+1,loop_img.shape[1]),:]
+						# 	pred = match_template(padded_img,template)[:,:,0]	 
+						# 	ox,oy = (instances[indx_loop][0]-x,instances[indx_loop][1]-y)
+						# 	shift_pred = numpy.zeros_like(pred)
+						# 	shift_pred[mom(oy):non(oy), mom(ox):non(ox)] = pred[mom(-oy):non(-oy), mom(-ox):non(-ox)]
+						# 	PREDICT += shift_pred
 
 						flat_index=numpy.argmax(PREDICT)
 						Y_max,X_max=numpy.unravel_index(flat_index,PREDICT.shape)
@@ -235,7 +236,8 @@ for each_action in actionlist:
 							sleep(0.5)
 							SS_img = numpy.asarray(GUIbot.screenshot())
 							if 'action_clf' in e_action:
-								PREDICT = utils.locateIMG(SS_img,each_sup_clf)
+								detector_rf_clf = e_action['action_clf']
+								PREDICT = utils.locateIMG(SS_img,detector_rf_clf)
 								flat_index=numpy.argmax(PREDICT)
 								Y_max,X_max=numpy.unravel_index(flat_index,PREDICT.shape)
 								

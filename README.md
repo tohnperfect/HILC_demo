@@ -55,7 +55,7 @@ Run each step as follows,
 5. [Demonstration phase] run `python transcribe_basicaction.py --p=PATH\TO\SAVE\FOLDER\` to transcibe the log-file to a sequence of basic actions. <br/>
 This script needs to load pre-trained model and pairwise potential files to do basic action classification. The pre-trained models and pairwise potential can be downloaded from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
-6. [Teaching phase] run `python gen_script_detectors.py --p=PATH\TO\SAVE\FOLDER\` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be downloaded from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
+6. [Teaching phase] run `python gen_script_detectors.py --p=PATH\TO\SAVE\FOLDER\ --c=True` the script will train a detector for each basic action. After the detector is trained, the script will test the detector and ask for clarification if needed. In this step, the script needs to load the pre-scripted the questions file `pygame_question_genscript.txt`, which can be downloaded from [here](https://drive.google.com/drive/folders/0BxWU2fKZbtBYUFdPWk0xSFFvTFU?usp=sharing).
 
 7. [Running phase] run `python script_execution.py --p=PATH\TO\SAVE\FOLDER\` to run the generated script.
 

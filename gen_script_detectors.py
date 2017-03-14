@@ -19,7 +19,7 @@ from PIL import Image
 parser = argparse.ArgumentParser()
 parser.add_argument('--p', type=str, help='path to action list', default='')
 parser.add_argument('--s', type=str, help='path to save directory  default is empty string', default='')
-parser.add_argument('--c', type=bool, help='use classifier (if --c=False use pattern matching)', default=True)
+parser.add_argument('--c', type=bool, help='use classifier (if --c=False use pattern matching)', default=False)
 parser.add_argument('--t', type=bool, help='enter tedious mode , ask every question', default=False)
 parser.add_argument('--d', type=bool, help='enter debug mode', default=False)
 args = parser.parse_args()
@@ -383,26 +383,29 @@ if HAS_LOOP:
 		TEXT += 'instance_locations = list()\n'
 		TEXT += 'for each_imgname in instances:\n'
 		TEXT += '\tinstance_locations.append(find(each_imgname))\n'
-		saliences_list = list()
 
-		for x,y in instances:
-			padded_img = numpy.zeros(shape=(medianIMG.shape[0]+(2*size),medianIMG.shape[1]+(2*size),medianIMG.shape[2]))
-			padded_img[size:-size,size:-size,:] = medianIMG
-			template = padded_img[max(y,0):min(y+(2*size)+1,padded_img.shape[0]),max(x,0):min(x+(2*size)+1,padded_img.shape[1]),:]
-			matched = match_template(padded_img,template)[:,:,0]
-			flat_index = numpy.argmax(matched)
-			Y_max,X_max = numpy.unravel_index(flat_index,matched.shape)
+		### disable the use of supporters here for now.
+		# saliences_list = list()
+		# for x,y in instances:
+		# 	padded_img = numpy.zeros(shape=(medianIMG.shape[0]+(2*size),medianIMG.shape[1]+(2*size),medianIMG.shape[2]))
+		# 	padded_img[size:-size,size:-size,:] = medianIMG
+		# 	template = padded_img[max(y,0):min(y+(2*size)+1,padded_img.shape[0]),max(x,0):min(x+(2*size)+1,padded_img.shape[1]),:]
+		# 	matched = match_template(padded_img,template)[:,:,0]
+		# 	flat_index = numpy.argmax(matched)
+		# 	Y_max,X_max = numpy.unravel_index(flat_index,matched.shape)
 
-			if numpy.dot([Y_max-y,X_max-x],[Y_max-y,X_max-x]) < 10 and not TEDIOUS: 
-				saliences_list.append([])
-			else:
-				bbimg = numpy.empty_like(medianIMG)
-				bbimg[:] = medianIMG
-				bbimg=utils.draw_bounding_boxR(bbimg,X_max,Y_max)
-				bbimg=utils.draw_bounding_boxG(bbimg,x,y)
-				print 'Question? : '
-				print questions[4]
-				saliences_list.append(run_pygame_asking(bbimg,questions[4]))
+		# 	if numpy.dot([Y_max-y,X_max-x],[Y_max-y,X_max-x]) < 10 and not TEDIOUS: 
+		# 		saliences_list.append([])
+		# 	else:
+		# 		bbimg = numpy.empty_like(medianIMG)
+		# 		bbimg[:] = medianIMG
+		# 		bbimg=utils.draw_bounding_boxR(bbimg,X_max,Y_max)
+		# 		bbimg=utils.draw_bounding_boxG(bbimg,x,y)
+		# 		print 'Question? : '
+		# 		print questions[4]
+		# 		saliences_list.append(run_pygame_asking(bbimg,questions[4]))
+
+		saliences_list=[[]]
 
 		loop_action['saliences_list'] = saliences_list
 

@@ -6,6 +6,7 @@ from skimage.util import view_as_windows
 import string
 import time
 import os
+from scipy.ndimage.filters import gaussian_filter
 
 def cal_one_BOF2context(positive_feature,changes,no_sections=3):
 	feature = numpy.zeros(shape=(1,8*(no_sections+1)))
@@ -638,89 +639,82 @@ def draw_bounding_boxG(img_white,c_corn,r_corn,temp_width=61,temp_height=61):
 		img_display[min(Row-1,r_max+temp_height+1),COL,0]=0
 		
 	return img_display/constant
-	
-def locateIMG_with_supporter(img2search, supporters, MODEL_main_supporter, size = 30, max_win_size = 100, classifier = 'rf'):
+
+def locateIMG_with_supporter(img2search, supporters, max_supporters_dectected_score, MODEL_main_supporter, DEBUG=False, size = 30, max_win_size = 100, classifier = 'rf'):
 	[MODEL,MODEL_supporter] = MODEL_main_supporter
 	row,col,dim = img2search.shape
-
-	if classifier == 'ada':
-		img2search = img2search.astype(numpy.int)
 
 	padded_img = numpy.zeros(shape=(row+(2*size),col+(2*size),dim))
 	padded_img[size:-size,size:-size,:] = img2search
 	img_predict = numpy.zeros(shape=(row,col))
 
-	if row%(max_win_size-(2*size)) > 0:
-		num_row_chunks = row/(max_win_size-(2*size))+1
-	else:
-		num_row_chunks = row/(max_win_size-(2*size))
+	### compute supporter probability maps
+	w_stary = 1.*numpy.arange(img2search.shape[0])
+	postFuny = numpy.zeros(shape=img2search.shape[:2])
+	w_starx = 1.*numpy.arange(img2search.shape[1])
+	postFunx = numpy.zeros(shape=img2search.shape[:2])
 
-	if col%(max_win_size-(2*size)) > 0:
-		num_col_chunks = col/(max_win_size-(2*size))+1
-	else:
-		num_col_chunks = col/(max_win_size-(2*size))
+	for each_supporter,each_score in zip(supporters,max_supporters_dectected_score):
+		predVary = 10*each_score
+		predVarx = 10*each_score
+		predMeanY = each_supporter[1]
+		predMeanX = each_supporter[0]
 
-	t0 = time.time()
-	if classifier == 'rf':
-		row_gradient = numpy.zeros(shape=(max_win_size,max_win_size))
-		col_gradient = numpy.ones(shape=(max_win_size,max_win_size))
-		for grad in range(max_win_size):
-			row_gradient[grad,:]=grad
-			col_gradient[:,grad]=grad
-		for each_r_sec in range(num_row_chunks):
-			for each_c_sec in range(num_col_chunks):
-				start_row = (each_r_sec*(max_win_size-(2*size)))
-				end_row = min((each_r_sec*(max_win_size-(2*size)))+max_win_size,padded_img.shape[0])
-				start_col = (each_c_sec*(max_win_size-(2*size)))
-				end_col = min((each_c_sec*(max_win_size-(2*size)))+max_win_size,padded_img.shape[1])
-				test_win = padded_img[start_row:end_row,start_col:end_col,:]
+		for e_y in range(img2search.shape[0]):
+			postFuny[e_y,:] = (1./numpy.sqrt(2*numpy.pi*predVary))*numpy.exp(-0.5*((w_stary[e_y]-predMeanY)**2)/predVary)
+	
+		for e_x in range(img2search.shape[1]):
+			postFunx[:,e_x] = (1./numpy.sqrt(2*numpy.pi*predVarx))*numpy.exp(-0.5*((w_starx[e_x]-predMeanX)**2)/predVarx)
 
-				test_rows = list()
-				test_cols = list()
-				### for each supporter found, give high score for that vertical and horizontal locations
-				for each_sup in supporters:
-					test_cols.append(start_col + col_gradient[:end_row-start_row,:end_col-start_col] - each_sup[0]-size)
-					test_rows.append(start_row + row_gradient[:end_row-start_row,:end_col-start_col] - each_sup[1]-size)
+	postFunx[each_supporter[1],each_supporter[0]] = 0
+	postFuny[each_supporter[1],each_supporter[0]] = 0
 
-				win_list = view_as_windows(test_win,((2*size)+1,(2*size)+1,dim))
-				win_list_rs = numpy.zeros(shape=(numpy.prod(win_list.shape[:2]),numpy.prod(win_list.shape[2:])+(2*len(supporters))))
-				win_list_rs[:,:numpy.prod(win_list.shape[2:])] = win_list.reshape((numpy.prod(win_list.shape[:2]),numpy.prod(win_list.shape[2:])))
+	### pass gaussian filters
+	postFunx = gaussian_filter(postFunx,20)
+	postFuny = gaussian_filter(postFuny,20)
 
-				for ind_sup in range(len(supporters)):
-					try:
-						col_list = view_as_windows(test_cols[ind_sup],(61,61))
-						win_list_rs[:,11163+(2*ind_sup)] = numpy.ravel(col_list[:,:,30,30])
-						row_list = view_as_windows(test_rows[ind_sup],(61,61))
-						win_list_rs[:,11163+(2*ind_sup)+1] = numpy.ravel(row_list[:,:,30,30])
-					except:
-						raise SystemExit('error in locateIMG_with_supporter function')
+	combined = (postFunx + postFuny)
 
-				img_predict[(each_r_sec*(max_win_size-(2*size))):min((each_r_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),row), \
-				(each_c_sec*(max_win_size-(2*size))):min((each_c_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),col)] \
-				= MODEL.predict_proba(win_list_rs[:,:11163])[:,1].reshape(win_list.shape[:2])
+	### compute the main pattern probability map
+	pattern_prob = locateIMG(img2search, MODEL)
 
-				### I totolly forgot what was these following part for, but it should not be crucial
-				if len(supporters)>0:
-					img_predict[(each_r_sec*(max_win_size-(2*size))):min((each_r_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),row), \
-					(each_c_sec*(max_win_size-(2*size))):min((each_c_sec*(max_win_size-(2*size)))+(max_win_size-(2*size)),col)] \
-					*= MODEL_supporter.predict_proba(win_list_rs[:,11163:])[:,1].reshape(win_list.shape[:2])
+	### combine X and Y supporters
+	img_predict = pattern_prob*combined
 
-	elif classifier == 'ada':
-		result_img = MODEL.predict_feature_matrix(padded_img, test_whole_cascade = True)
+	### pass through softmax
+	img_predict_pp = normalize(img_predict)
+	
+	if DEBUG:
+		print supporters
+		print max_supporters_dectected_score
 
-		if result_img.shape[0] > img_predict.shape[0]:
-			img_predict = result_img[size:-size,size:-size]
-		else:
-			img_predict = result_img
+		plt.imshow(pattern_prob)
+		plt.title('pattern_prob')
+		plt.show()
+			
+		plt.imshow(combined)
+		plt.title('combined')
+		plt.show()
+			
+		plt.imshow(img_predict)
+		plt.title('img_predict')
+		plt.show()
 
-	t1 = time.time()
-	print 'prediction time ',
-	print t1-t0
+		plt.imshow(img_predict_pp)
+		plt.title('img_predict after post-processed')
+		plt.show()
+	return img_predict_pp
 
-	ij = numpy.unravel_index(numpy.argmax(img_predict), img_predict.shape)
-	x, y = ij[::-1]
+def normalize(x):
 
-	return img_predict
+	maxV = numpy.max(x)
+	minV = numpy.min(x)
+	rangeV = maxV - minV
+
+	x_pp = (x - minV) / rangeV
+
+	return x_pp
+
 
 def learn_img_classifier_with_supporter(img, click_position, hardnegatives = list(), supporters = list(), neighbour = 3, size = 30, sample_percentage = 0.01):
 	t0 = time.time()

@@ -138,7 +138,7 @@ for each_action in actionlist:
 			else:
 				if TRAINED:
 					found_sup = list()
-
+					max_val = list()
 					### looking for supporters
 					if len(sup_clf)>0: #if there exists a trained detector for supporter
 						for each_sup_clf in sup_clf:
@@ -146,6 +146,7 @@ for each_action in actionlist:
 							flat_index=numpy.argmax(PREDICT)
 							Y_max,X_max=numpy.unravel_index(flat_index,PREDICT.shape)
 							found_sup.append((X_max,Y_max))
+							max_val.append(numpy.max(PREDICT))
 					else: #if there is no trained supporters, use NCC to find supporter
 						for each_sup in loop_sup:
 							size=30
@@ -159,10 +160,18 @@ for each_action in actionlist:
 							flat_index=numpy.argmax(PREDICT)
 							Y_max,X_max=numpy.unravel_index(flat_index,PREDICT.shape)
 							found_sup.append((X_max,Y_max))
+							max_val.append(numpy.max(PREDICT))
 
-					PREDICT = utils.locateIMG_with_supporter(SS_img, found_sup, loop_clf)
+					PREDICT = utils.locateIMG_with_supporter(SS_img, found_sup, max_val, loop_clf, DEBUG)
 					predict_nms=utils.nonMaxSuppress(PREDICT)
 					highYs,highXs = numpy.nonzero(predict_nms>thresh)
+
+					if DEBUG:
+						plt.imshow(predict_nms)
+						plt.title('result after NMS\'ed')
+						plt.show()
+						print highYs
+						print highXs
 
 				else:
 					highXs = list()

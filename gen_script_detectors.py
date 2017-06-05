@@ -30,10 +30,14 @@ TRAIN_CLASSIFIER = args.c
 DEBUG = args.d
 
 TEDIOUS = args.t
+
+#create question image pointers
+#older version use pygame_question_genscript.txt to set window titles to the question
+#the new version render text image on the display
 questions = list()
-with open('pygame_question_genscript.txt','r') as input_file:
+with open('pygame_question_images.txt','r') as input_file:
 	for line in input_file:
-		questions.append(line)
+		questions.append(line[:-1])
 
 path_to_imgs = action_path + 'imgs\\'
 path_to_save = action_path+save_path+'script_visualize\\'
@@ -63,17 +67,33 @@ with open(action_path+'transcript_actionlist.pickle', 'rb') as handle:
 # 	pygame.draw.rect( screen, (255,255,0), pygame.Rect(pygame.mouse.get_pos()[0]-15, pygame.mouse.get_pos()[1]-15, 31,31), 3)
 # 	pygame.display.flip()
 
-def displayBoxes( screen, px, positives, negatives, unsures, supporters):
+def displayBoxes( screen, px, positives, negatives, unsures, supporters, query = 'what.png'):
+
 	screen.blit(px, px.get_rect())
+
+	#display question
+	print query
+	text = pygame.image.load(query)
+	screen.blit(text,((px.get_rect()[2]/2)-(text.get_rect()[2]/2),10,text.get_rect()[2],text.get_rect()[3]))
+
 	for coor in positives:
 		pygame.draw.rect( screen, (0,0,255), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 2) #blue real positive
 	for coor in unsures:
-		pygame.draw.rect( screen, (250,200,20), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 1) #yellow unsuer positive
+		pygame.draw.rect( screen, (250,200,20), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 1) #yellow unsure positive
 	for coor in supporters:
 		pygame.draw.rect( screen, (0,255,0), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 3) #green supporter
 	for coor in negatives:
 		pygame.draw.rect( screen, (255,0,0), pygame.Rect((0.5*coor[0])-15, (0.5*coor[1])-15, 31,31), 2) #red negatives
+
 	pygame.display.flip()
+
+# def displayQuestion(screen, px, query = 'what.png'):
+# 	screen.blit(px, px.get_rect())
+# 	#display question
+# 	text = pygame.image.load(query)
+# 	screen.blit(text,((px.get_rect()[2]/2)-(text.get_rect()[2]/2),10,text.get_rect()[2],text.get_rect()[3]))
+# 	#pygame.display.update(ret_rect)
+# 	pygame.display.flip()
 
 def setup(path):
 	px = pygame.image.load(path)
@@ -88,7 +108,8 @@ def mainLoop(screen, px, instances, txt, mode = 'pos'):
 	runProgram = True
 	pressL = False
 	pressR = False
-	pygame.display.set_caption(txt) 
+	#pygame.display.set_caption(txt) 
+	#displayQuestion(screen, px, txt)
 	while runProgram:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -104,7 +125,7 @@ def mainLoop(screen, px, instances, txt, mode = 'pos'):
 					pressL = False
 					instances.append((2*pygame.mouse.get_pos()[0],2*pygame.mouse.get_pos()[1]))
 
-					displayBoxes(screen, px, positives=[], negatives=[], unsures=instances, supporters=[])
+					displayBoxes(screen, px, positives=[], negatives=[], unsures=instances, supporters=[], query = txt)
 				elif pressR:
 					pressR= False
 
@@ -112,7 +133,7 @@ def mainLoop(screen, px, instances, txt, mode = 'pos'):
 					if ininsta is not False:
 						instances.remove(ininsta)
 
-					displayBoxes(screen, px, positives=[], negatives=[], unsures=instances, supporters=[])
+					displayBoxes(screen, px, positives=[], negatives=[], unsures=instances, supporters=[], query = txt)
 				else:
 					'do noting'
 
@@ -129,7 +150,7 @@ def check_if_in(point,mainlist,size=30):
 def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
 
 	runProgram = True
-	pygame.display.set_caption(txt)
+	#pygame.display.set_caption(txt)
 	pressL = False
 	pressR = False
 	REFRESH = False
@@ -150,7 +171,7 @@ def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
 				if pressL:
 					pressL = False
 					positives.append((2*pygame.mouse.get_pos()[0],2*pygame.mouse.get_pos()[1]))
-					displayBoxes(screen, px, positives, negatives, unsures, supporters)
+					displayBoxes(screen, px, positives, negatives, unsures, supporters, query = txt)
 				elif pressR:
 					pressR= False
 					inpos = check_if_in(pygame.mouse.get_pos(),positives)
@@ -172,7 +193,7 @@ def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
 								if inuns is not False:
 									unsures.remove(inuns)
 									positives.append(inuns)
-					displayBoxes(screen, px, positives, negatives, unsures, supporters)
+					displayBoxes(screen, px, positives, negatives, unsures, supporters, query = txt)
 				else:
 					pressL = False
 					pressR = False
@@ -206,7 +227,7 @@ def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
 					predict[:] = predictI
 					rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
 					unsures = zip(colsI,rowsI)
-					displayBoxes(screen, px, positives, negatives, unsures, supporters)
+					displayBoxes(screen, px, positives, negatives, unsures, supporters, query = txt)
 					print '...done'
 
 	return positives, negatives, unsures, supporters,loop_instances_clf
@@ -218,36 +239,36 @@ def run_pygame_v2(img,positives,unsures,negatives = list()):
 	pilbmp.save('temp_input_img.bmp')
 	supporters = list()
 	screen, px = setup('temp_input_img.bmp')
-	displayBoxes(screen, px, positives, negatives, unsures, supporters)
+	displayBoxes(screen, px, positives, negatives, unsures, supporters, query =  questions[0])
 	print 'Question? : '
-	print questions[1]
-	positives,negatives,unsures,supporters, clf = mainLoop_v2(screen, px, positives, negatives, unsures, supporters, questions[1])
+	print questions[0]
+	positives,negatives,unsures,supporters, clf = mainLoop_v2(screen, px, positives, negatives, unsures, supporters, questions[0])
 	pygame.display.quit()
 
 	return positives,negatives,unsures,supporters,clf
 
-def run_pygame(img):
-	pygame.init()
-	pilbmp = Image.fromarray(numpy.uint8(img*255))
-	pilbmp.save('temp_input_img.bmp')
-	positive=list()
-	screen, px = setup('temp_input_img.bmp')
-	positivesX = mainLoop(screen, px,positive, 'Please Select Positive Examples That Fall Off The Radar. (BLUE:input,RED:detected)',mode='pos')
-	pygame.display.quit()
-	bbimgX = numpy.empty_like(img)
-	bbimgX[:] = img
+# def run_pygame(img):
+# 	pygame.init()
+# 	pilbmp = Image.fromarray(numpy.uint8(img*255))
+# 	pilbmp.save('temp_input_img.bmp')
+# 	positive=list()
+# 	screen, px = setup('temp_input_img.bmp')
+# 	positivesX = mainLoop(screen, px,positive, 'Please Select Positive Examples That Fall Off The Radar. (BLUE:input,RED:detected)',mode='pos')
+# 	pygame.display.quit()
+# 	bbimgX = numpy.empty_like(img)
+# 	bbimgX[:] = img
 
-	for col,row in positivesX:
-	        bbimgX=utils.draw_bounding_boxG(bbimgX,col,row)
+# 	for col,row in positivesX:
+# 	        bbimgX=utils.draw_bounding_boxG(bbimgX,col,row)
 
-	pilbmp = Image.fromarray(numpy.uint8(bbimgX*255))
-	pilbmp.save('temp_selected_img.bmp')
-	negative = list()
-	screen, px = setup('temp_selected_img.bmp')
-	negativesX = mainLoop(screen, px, negative, 'Please Mark False Positive Boxes', mode='neg')
-	pygame.display.quit()
+# 	pilbmp = Image.fromarray(numpy.uint8(bbimgX*255))
+# 	pilbmp.save('temp_selected_img.bmp')
+# 	negative = list()
+# 	screen, px = setup('temp_selected_img.bmp')
+# 	negativesX = mainLoop(screen, px, negative, 'Please Mark False Positive Boxes', mode='neg')
+# 	pygame.display.quit()
 
-	return positivesX,negativesX
+# 	return positivesX,negativesX
 
 def run_pygame_asking(img,text):
 	pygame.init()
@@ -256,6 +277,7 @@ def run_pygame_asking(img,text):
 	pilbmp.save('temp_input_img.bmp')
 	positive=list()
 	screen, px = setup('temp_input_img.bmp')
+	displayBoxes(screen, px, [], [], [], [], query =  text)
 	salience = mainLoop(screen, px,positive, text, mode='salience')
 	pygame.display.quit()
 
@@ -432,8 +454,8 @@ for each_action in actionlist:
 
 			standby_img = each_action['wait_img']
 			print 'Question? : '
-			print questions[7]
-			looking_for_this_list = run_pygame_asking(each_action['wait_img']/255.,questions[7])
+			print questions[2]
+			looking_for_this_list = run_pygame_asking(each_action['wait_img']/255.,questions[2])
 			looking_for_this = looking_for_this_list[0] #only one pattern for now
 			padded_img = numpy.zeros(shape=(each_action['wait_img'].shape[0]+(2*size),each_action['wait_img'].shape[1]+(2*size),each_action['wait_img'].shape[2]))
 			padded_img[size:-size,size:-size,:] = each_action['wait_img']
@@ -509,8 +531,8 @@ for each_action in actionlist:
 
 						bbimg=utils.draw_bounding_boxG(bbimg,each_action['pos_start'][0],each_action['pos_start'][1])
 						print 'Question? : '
-						print questions[10]
-						saliences = run_pygame_asking(bbimg,questions[10])
+						print questions[3]
+						saliences = run_pygame_asking(bbimg,questions[3])
 						
 						#when the user doesnt provide supporters
 						if len(saliences) == 0:
@@ -554,8 +576,8 @@ for each_action in actionlist:
 					bbimg=utils.draw_bounding_boxR(bbimg,X_max,Y_max)
 					bbimg=utils.draw_bounding_boxG(bbimg,each_action['pos_start'][0],each_action['pos_start'][1])
 					print 'Question? : '
-					print questions[13]
-					saliences = run_pygame_asking(bbimg,questions[13])
+					print questions[4]
+					saliences = run_pygame_asking(bbimg,questions[4])
 
 					if len(saliences) == 0:
 						padded_img = numpy.zeros(shape=(im_before_start.shape[0]+(2*size),im_before_start.shape[1]+(2*size),im_before_start.shape[2]))
@@ -711,8 +733,8 @@ for each_action in actionlist:
 
 							bbimg=utils.draw_bounding_boxG(bbimg,each_action['pos_end'][0],each_action['pos_end'][1])
 							print 'Question? : '
-							print questions[16]
-							saliences = run_pygame_asking(bbimg,questions[16])
+							print questions[5]
+							saliences = run_pygame_asking(bbimg,questions[5])
 
 						else:
 							saliences = []
@@ -724,8 +746,8 @@ for each_action in actionlist:
 						bbimg=utils.draw_bounding_boxG(bbimg,each_action['pos_end'][0],each_action['pos_end'][1])
 						bbimg=utils.draw_bounding_boxR(bbimg,X_max,Y_max)
 						print 'Question? : '
-						print questions[16]
-						saliences = run_pygame_asking(bbimg,questions[16])
+						print questions[5]
+						saliences = run_pygame_asking(bbimg,questions[5])
 
 				else:
 					each_action['same_as_start'] = True

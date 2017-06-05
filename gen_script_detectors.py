@@ -72,7 +72,7 @@ def displayBoxes( screen, px, positives, negatives, unsures, supporters, query =
 	screen.blit(px, px.get_rect())
 
 	#display question
-	print query
+	#print query
 	text = pygame.image.load(query)
 	screen.blit(text,((px.get_rect()[2]/2)-(text.get_rect()[2]/2),10,text.get_rect()[2],text.get_rect()[3]))
 
@@ -108,7 +108,7 @@ def mainLoop(screen, px, instances, txt, mode = 'pos'):
 	runProgram = True
 	pressL = False
 	pressR = False
-	#pygame.display.set_caption(txt) 
+	pygame.display.set_caption('Help, it looks confusing(HILC)') 
 	#displayQuestion(screen, px, txt)
 	while runProgram:
 		for event in pygame.event.get():
@@ -150,7 +150,7 @@ def check_if_in(point,mainlist,size=30):
 def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
 
 	runProgram = True
-	#pygame.display.set_caption(txt)
+	pygame.display.set_caption('Help, it looks confusing(HILC)') 
 	pressL = False
 	pressR = False
 	REFRESH = False

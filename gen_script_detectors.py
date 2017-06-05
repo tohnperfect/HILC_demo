@@ -535,37 +535,37 @@ for each_action in actionlist:
 						saliences = run_pygame_asking(bbimg,questions[3])
 						
 						#when the user doesnt provide supporters
-						if len(saliences) == 0:
-							padded_img = numpy.zeros(shape=(im_before_start.shape[0]+(2*size),im_before_start.shape[1]+(2*size),im_before_start.shape[2]))
-							padded_img[size:-size,size:-size,:] = im_before_start
-							template = padded_img[max(each_action['pos_start'][1],0):min(each_action['pos_start'][1]+(2*size)+1,padded_img.shape[0]),max(each_action['pos_start'][0],0):min(each_action['pos_start'][0]+(2*size)+1,padded_img.shape[1]),:]
+						# if len(saliences) == 0:
+						# 	padded_img = numpy.zeros(shape=(im_before_start.shape[0]+(2*size),im_before_start.shape[1]+(2*size),im_before_start.shape[2]))
+						# 	padded_img[size:-size,size:-size,:] = im_before_start
+						# 	template = padded_img[max(each_action['pos_start'][1],0):min(each_action['pos_start'][1]+(2*size)+1,padded_img.shape[0]),max(each_action['pos_start'][0],0):min(each_action['pos_start'][0]+(2*size)+1,padded_img.shape[1]),:]
 
-							####### 1st with NCC ###########
-							matched = match_template(padded_img,template)[:,:,0]#matched = numpy.squeeze(signal.correlate2d(padded_img[:,:,0],template[:,:,0],mode='valid'))#
-							predict = numpy.empty_like(matched)
-							predict[:] = matched
-							rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
-							neglist=list()
+						# 	####### 1st with NCC ###########
+						# 	matched = match_template(padded_img,template)[:,:,0]#matched = numpy.squeeze(signal.correlate2d(padded_img[:,:,0],template[:,:,0],mode='valid'))#
+						# 	predict = numpy.empty_like(matched)
+						# 	predict[:] = matched
+						# 	rowsI,colsI = utils.nonMaxSuppress_nonZero(predict,thresh=thresh)
+						# 	neglist=list()
 
-							for X_max,Y_max in zip(colsI,rowsI):
-								if numpy.dot([Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]],[Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]]) > 10:
-									neglist.append((X_max,Y_max))
+						# 	for X_max,Y_max in zip(colsI,rowsI):
+						# 		if numpy.dot([Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]],[Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]]) > 10:
+						# 			neglist.append((X_max,Y_max))
 
-							if len(neglist)>0:
-								####### 2nd with rf hard negative ###########
-								action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
-								predictII = utils.locateIMG(im_before_start,action_instances_clf)
-								rowsI,colsI = utils.nonMaxSuppress_nonZero(predictII,thresh=thresh)
+						# 	if len(neglist)>0:
+						# 		####### 2nd with rf hard negative ###########
+						# 		action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
+						# 		predictII = utils.locateIMG(im_before_start,action_instances_clf)
+						# 		rowsI,colsI = utils.nonMaxSuppress_nonZero(predictII,thresh=thresh)
 					
-								for X_max,Y_max in zip(colsI,rowsI):
-									if numpy.dot([Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]],[Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]]) > 10:
-										neglist.append((X_max,Y_max))
+						# 		for X_max,Y_max in zip(colsI,rowsI):
+						# 			if numpy.dot([Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]],[Y_max-each_action['pos_start'][1],X_max-each_action['pos_start'][0]]) > 10:
+						# 				neglist.append((X_max,Y_max))
 								
-								if len(colsI)>0:
-									####### 3nd with rf hard negative ###########  we keep adding hard negative until there is no more to add
-									action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
+						# 		if len(colsI)>0:
+						# 			####### 3nd with rf hard negative ###########  we keep adding hard negative until there is no more to add
+						# 			action_instances_clf = utils.learn_img_classifier(im_before_start,each_action['pos_start'],hardnegatives = neglist, sample_percentage = 0, neighbour = 0)
 
-								each_action['action_clf']=action_instances_clf
+						# 		each_action['action_clf']=action_instances_clf
 
 					else:
 						saliences = []

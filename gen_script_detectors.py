@@ -204,8 +204,10 @@ def mainLoop_v2(screen, px, positives,negatives,unsures, supporters, txt):
 				if REFRESH:
 					REFRESH = False
 					print 'Start Training'
-					loop_instances_clf = utils.learn_img_classifier_with_supporter(training_img,positives,hardnegatives=negatives,supporters=supporters)
-					predictI = utils.locateIMG_with_supporter(training_img, supporters, loop_instances_clf)
+					#loop_instances_clf = utils.learn_img_classifier_with_supporter(training_img,positives,hardnegatives=negatives,supporters=supporters)
+					#predictI = utils.locateIMG_with_supporter(training_img, supporters, loop_instances_clf) #dont update with the presence of supporters for now
+					loop_instances_clf = utils.learn_img_classifier(training_img, training_instances, hardnegatives=negatives)
+					predictI = utils.locateIMG(training_img, loop_instances_clf)
 					predict = numpy.empty_like(predictI)
 					fig = plt.figure()
 					ax = fig.add_subplot(111)
